@@ -19,4 +19,6 @@ export const getBasePromptBusinessPlan = ({
     "businessGoals": "",
     "possibleRisks": ""
   }
+
+  Recuerda no devolver en el resultado ningun salto de linea, ni /n, ni comillas, ni caracteres especiales.
 `;
