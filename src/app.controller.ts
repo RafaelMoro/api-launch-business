@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
+import { BusinessPlanDto } from './app.dto';
 
 @Controller()
 export class AppController {
@@ -8,6 +9,11 @@ export class AppController {
   @Get()
   testApi() {
     return this.appService.testApi();
+  }
+
+  @Post('/business-plan')
+  generateBusinessPlan(@Body() data: BusinessPlanDto) {
+    return this.appService.generateBusinessPlan(data);
   }
 
   @Get('/chat')
