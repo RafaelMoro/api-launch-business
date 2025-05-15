@@ -5,8 +5,13 @@ import { ConfigType } from '@nestjs/config';
 import OpenAI from 'openai';
 import config from '@/config';
 
-import { VERSION_RESPONSE } from '@/constants';
-import { TestApiResponse } from '@/interface';
+import { getBasePromptBusinessPlan, VERSION_RESPONSE } from '@/constants';
+import {
+  BusinessPlanData,
+  BusinessPlanResponse,
+  TestApiResponse,
+} from '@/interface';
+import { BusinessPlanDto } from './app.dto';
 
 @Injectable()
 export class AppService {
@@ -23,6 +28,42 @@ export class AppService {
       error: null,
     };
     return response;
+  }
+
+  async generateBusinessPlan(data: BusinessPlanDto) {
+    try {
+      const { business } = data;
+      const apiKey = this.configService.openAIKey ?? '';
+      if (!apiKey) {
+        throw new BadRequestException('API key is not set');
+      }
+
+      const openai = new OpenAI({
+        apiKey,
+      });
+      const completion = await openai.chat.completions.create({
+        model: 'gpt-4o-mini',
+        store: true,
+        messages: [
+          {
+            role: 'user',
+            content: getBasePromptBusinessPlan({ business }),
+          },
+        ],
+      });
+      const completionResult = completion.choices[0]
+        .message as BusinessPlanData; // Convert this as unkown and then BusinessPlanData
+      const response: BusinessPlanResponse = {
+        version: VERSION_RESPONSE,
+        success: true,
+        message: 'business plan created',
+        data: completionResult,
+        error: null,
+      };
+      return response;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
   async getHello() {
