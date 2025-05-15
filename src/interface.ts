@@ -5,3 +5,9 @@ export interface GeneralResponse {
   message: string | null;
   error: string | object;
 }
+
+export interface TestApiResponse
+  extends Omit<GeneralResponse, 'message' | 'error'> {
+  message: string;
+  error: null;
+}
