@@ -6,7 +6,6 @@ import config from '@/config';
 @Injectable()
 export class AppService {
   constructor(
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
     @Inject(config.KEY) private configService: ConfigType<typeof config>,
   ) {}
   async getHello() {
@@ -19,12 +18,21 @@ export class AppService {
       const openai = new OpenAI({
         apiKey,
       });
-      const completion = await openai.chat.completions.create({
-        model: 'gpt-4o-mini',
-        store: true,
-        messages: [{ role: 'user', content: 'write a haiku about ai' }],
+      // Completion for web search
+      const completion = await openai.responses.create({
+        model: 'gpt-4.1',
+        tools: [{ type: 'web_search_preview' }],
+        input: 'What was a positive news story from today?',
       });
-      const result = completion.choices[0].message;
+      const result = completion.output_text;
+
+      // Completion for chat
+      // const completion = await openai.chat.completions.create({
+      //   model: 'gpt-4o-mini',
+      //   store: true,
+      //   messages: [{ role: 'user', content: 'write a haiku about ai' }],
+      // });
+      // const result = completion.choices[0].message;
 
       return {
         test: result,
