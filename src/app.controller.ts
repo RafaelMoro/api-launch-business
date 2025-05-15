@@ -6,6 +6,11 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
+  testApi() {
+    return this.appService.testApi();
+  }
+
+  @Get('/chat')
   getHello() {
     return this.appService.getHello();
   }
