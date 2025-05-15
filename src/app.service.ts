@@ -12,6 +12,7 @@ import {
   TestApiResponse,
 } from '@/interface';
 import { BusinessPlanDto } from './app.dto';
+import { parseStringToJson } from './utils';
 
 @Injectable()
 export class AppService {
@@ -51,13 +52,15 @@ export class AppService {
           },
         ],
       });
-      const completionResult = completion.choices[0]
-        .message as BusinessPlanData; // Convert this as unkown and then BusinessPlanData
+      const completionResult = completion.choices[0].message.content;
+      const responseParsed = parseStringToJson(
+        completionResult,
+      ) as BusinessPlanData;
       const response: BusinessPlanResponse = {
         version: VERSION_RESPONSE,
         success: true,
         message: 'business plan created',
-        data: completionResult,
+        data: responseParsed,
         error: null,
       };
       return response;
