@@ -11,3 +11,15 @@ export interface TestApiResponse
   message: string;
   error: null;
 }
+
+export interface BusinessPlanData {
+  businessStrategy: string;
+  inversionPlan: string;
+  businessGoals: string;
+  possibleRisks: string;
+}
+
+export interface BusinessPlanResponse extends Omit<GeneralResponse, 'error'> {
+  data: BusinessPlanData;
+  error: null;
+}
