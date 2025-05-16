@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsString, IsNotEmpty } from 'class-validator';
 
 export class BusinessPlanDto {
   @IsString()
@@ -11,4 +11,18 @@ export class StateCountryDto {
 
   @IsString()
   latitude: string;
+}
+
+export class BuyerPersonaDto {
+  @IsString()
+  @IsNotEmpty()
+  business: string;
+
+  @IsString()
+  @IsNotEmpty()
+  state: string;
+
+  @IsString()
+  @IsNotEmpty()
+  country: string;
 }

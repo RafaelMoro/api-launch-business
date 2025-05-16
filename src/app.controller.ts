@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
-import { BusinessPlanDto, StateCountryDto } from './app.dto';
+import { BusinessPlanDto, StateCountryDto, BuyerPersonaDto } from './app.dto';
 
 @Controller()
 export class AppController {
@@ -24,5 +24,10 @@ export class AppController {
   @Get('/chat')
   getHello() {
     return this.appService.getHello();
+  }
+
+  @Post('buyer-persona')
+  generateBuyerPersona(@Body() buyerPersonaDto: BuyerPersonaDto) {
+    return this.appService.generateBuyerPersona(buyerPersonaDto);
   }
 }

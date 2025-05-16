@@ -49,3 +49,20 @@ export interface GetStateCountryProps {
   longitude: string;
   latitude: string;
 }
+
+// Individual Buyer Persona interface
+export interface BuyerPersona {
+  name: string;
+  demographicData: string;
+  behaviorMotivations: string;
+  needs: string;
+}
+
+// Response interface for the service
+export interface BuyerPersonaResponse {
+  version: string;
+  success: boolean;
+  message: string;
+  data: BuyerPersona[] | null;
+  error: string | null;
+}

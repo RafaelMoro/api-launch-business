@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable, Inject, BadRequestException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
@@ -7,6 +6,7 @@ import config from '@/config';
 
 import {
   getBasePromptBusinessPlan,
+  getBuyerPersona,
   getStateCountry,
   VERSION_RESPONSE,
 } from '@/constants';
@@ -16,8 +16,10 @@ import {
   GetStateCountryResponse,
   StateCountryData,
   TestApiResponse,
+  BuyerPersonaResponse,
+  BuyerPersona,
 } from '@/interface';
-import { BusinessPlanDto, StateCountryDto } from './app.dto';
+import { BusinessPlanDto, StateCountryDto, BuyerPersonaDto } from './app.dto';
 import { parseStringToJson } from './utils';
 
 @Injectable()
@@ -147,6 +149,45 @@ export class AppService {
         test: result,
         satus: 'ok',
       };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async generateBuyerPersona(data: BuyerPersonaDto) {
+    try {
+      const { business, state, country } = data;
+      const apiKey = this.configService.openAIKey ?? '';
+      if (!apiKey) {
+        throw new BadRequestException('API key is not set');
+      }
+
+      const openai = new OpenAI({
+        apiKey,
+      });
+      const completion = await openai.chat.completions.create({
+        model: 'gpt-4o-mini',
+        store: true,
+        messages: [
+          {
+            role: 'user',
+            content: getBuyerPersona({ business, state, country }),
+          },
+        ],
+      });
+      const completionResult = completion.choices[0].message.content;
+      const responseParsed = parseStringToJson(
+        completionResult,
+      ) as BuyerPersona[];
+
+      const response: BuyerPersonaResponse = {
+        version: VERSION_RESPONSE,
+        success: true,
+        message: 'buyer personas created',
+        data: responseParsed,
+        error: null,
+      };
+      return response;
     } catch (error) {
       throw new BadRequestException(error.message);
     }
