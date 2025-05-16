@@ -23,3 +23,14 @@ export interface BusinessPlanResponse extends Omit<GeneralResponse, 'error'> {
   data: BusinessPlanData;
   error: null;
 }
+
+// Interfaces of getters of prompts
+export interface GetBuyerPersonaProps {
+  business: string;
+  state: string | null;
+  country: string | null;
+}
+
+export interface GetBasePromptBusinessPlanProps {
+  business: string;
+}
