@@ -45,6 +45,12 @@ export interface GetBasePromptBusinessPlanProps {
   business: string;
 }
 
+export interface GetInitialBudgetProps {
+  business: string;
+  state: string | null;
+  country: string | null;
+}
+
 export interface GetStateCountryProps {
   longitude: string;
   latitude: string;
