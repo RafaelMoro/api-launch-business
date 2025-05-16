@@ -5,13 +5,19 @@ import { ConfigType } from '@nestjs/config';
 import OpenAI from 'openai';
 import config from '@/config';
 
-import { getBasePromptBusinessPlan, VERSION_RESPONSE } from '@/constants';
+import {
+  getBasePromptBusinessPlan,
+  getStateCountry,
+  VERSION_RESPONSE,
+} from '@/constants';
 import {
   BusinessPlanData,
   BusinessPlanResponse,
+  GetStateCountryResponse,
+  StateCountryData,
   TestApiResponse,
 } from '@/interface';
-import { BusinessPlanDto } from './app.dto';
+import { BusinessPlanDto, StateCountryDto } from './app.dto';
 import { parseStringToJson } from './utils';
 
 @Injectable()
@@ -29,6 +35,42 @@ export class AppService {
       error: null,
     };
     return response;
+  }
+
+  async getStateCountry(data: StateCountryDto) {
+    try {
+      const { longitude, latitude } = data;
+      const apiKey = this.configService.openAIKey ?? '';
+      if (!apiKey) {
+        throw new BadRequestException('API key is not set');
+      }
+
+      const openai = new OpenAI({
+        apiKey,
+      });
+      const completion = await openai.chat.completions.create({
+        model: 'gpt-4o-mini',
+        store: true,
+        messages: [
+          {
+            role: 'user',
+            content: getStateCountry({ latitude, longitude }),
+          },
+        ],
+      });
+      const result = completion.choices[0].message.content;
+      const responseParsed = parseStringToJson(result) as StateCountryData;
+      const response: GetStateCountryResponse = {
+        version: VERSION_RESPONSE,
+        success: true,
+        message: 'state and country found',
+        data: responseParsed,
+        error: null,
+      };
+      return response;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
   async generateBusinessPlan(data: BusinessPlanDto) {
