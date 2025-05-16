@@ -14,6 +14,7 @@ export class AppController {
 
   @Get()
   testApi() {
+    console.log('here');
     return this.appService.testApi();
   }
 
