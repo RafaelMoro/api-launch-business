@@ -24,6 +24,16 @@ export interface BusinessPlanResponse extends Omit<GeneralResponse, 'error'> {
   error: null;
 }
 
+export interface StateCountryData {
+  state: string;
+  country: string;
+}
+export interface GetStateCountryResponse
+  extends Omit<GeneralResponse, 'error'> {
+  data: StateCountryData;
+  error: null;
+}
+
 // Interfaces of getters of prompts
 export interface GetBuyerPersonaProps {
   business: string;
@@ -33,4 +43,9 @@ export interface GetBuyerPersonaProps {
 
 export interface GetBasePromptBusinessPlanProps {
   business: string;
+}
+
+export interface GetStateCountryProps {
+  longitude: string;
+  latitude: string;
 }
