@@ -80,6 +80,8 @@ export const getInitialBudget = ({
     "considerations": "",
   }
 
+  Devuelve la propiedad budget como objeto donde cada propiedad es un gasto y el valor es el monto. Incluye una propiedad con el total dentro de budget.
+  Devuelve la propiedad considerations como una cadena de texto solamente.
   Recuerda no devolver en el resultado ningun salto de linea, ni /n, ni comillas, ni caracteres especiales.
 `;
 
