@@ -1,3 +1,9 @@
+## v1.0.1 (2025-05-16)
+
+### Pull Requests
+[#4](https://github.com/RafaelMoro/api-launch-business/pull/4) | Fix prompt of budget to adjust the format of the budget concepts
+
+
 ## v1.0.0 (2025-05-16)
 
 ### Pull Requests
