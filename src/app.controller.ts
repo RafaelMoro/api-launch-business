@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
-import { BusinessPlanDto } from './app.dto';
+import { BusinessPlanDto, StateCountryDto } from './app.dto';
 
 @Controller()
 export class AppController {
@@ -14,6 +14,11 @@ export class AppController {
   @Post('/business-plan')
   generateBusinessPlan(@Body() data: BusinessPlanDto) {
     return this.appService.generateBusinessPlan(data);
+  }
+
+  @Post('/state-country')
+  getStateCountry(@Body() data: StateCountryDto) {
+    return this.appService.getStateCountry(data);
   }
 
   @Get('/chat')
