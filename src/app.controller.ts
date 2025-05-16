@@ -5,6 +5,7 @@ import {
   StateCountryDto,
   BuyerPersonaDto,
   InitialBudgetDto,
+  BusinessCompetitionDto,
 } from './app.dto';
 
 @Controller()
@@ -39,5 +40,12 @@ export class AppController {
   @Post('budget')
   generateInitialBudget(@Body() initialBudgetDto: InitialBudgetDto) {
     return this.appService.generateInitialBudget(initialBudgetDto);
+  }
+
+  @Post('competition')
+  generateBusinessCompetition(
+    @Body() businessCompetitionDto: BusinessCompetitionDto,
+  ) {
+    return this.appService.generateBusinessCompetition(businessCompetitionDto);
   }
 }

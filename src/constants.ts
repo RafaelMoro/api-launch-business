@@ -1,5 +1,6 @@
 import {
   GetBasePromptBusinessPlanProps,
+  GetBusinessCompetitionProps,
   GetBuyerPersonaProps,
   GetInitialBudgetProps,
   GetStateCountryProps,
@@ -80,4 +81,30 @@ export const getInitialBudget = ({
   }
 
   Recuerda no devolver en el resultado ningun salto de linea, ni /n, ni comillas, ni caracteres especiales.
+`;
+
+export const getBusinessCompetition = ({
+  business,
+  state,
+  country,
+}: GetBusinessCompetitionProps) => `
+  Eres un experto en negocios y finanzas.
+
+  Busca en internet y dame una lista de competidores similares para el negocio ${business} en base a este estado ${state} y pais ${country}.
+  En caso de que ${state} y ${country} sean invalidos, usa al país de México como referencia.
+  Devuelve el resultado en un arreglo de JSON con este formato:
+
+  {
+    "name": "",
+    "description": "",
+    "website": "",
+    "logoDescription": "",
+    "competition": "",
+    "competitionType": "",
+    "competitionSize": "",
+    "competitionLocation": "",
+    "differenciator": "
+  }
+
+  Recuerda no devolver en el resultado ningun salto de linea, ni /n, ni comillas, ni caracteres especiales. No agregues ningun texto adicional, solo el JSON.
 `;

@@ -40,3 +40,17 @@ export class InitialBudgetDto {
   @IsNotEmpty()
   country: string;
 }
+
+export class BusinessCompetitionDto {
+  @IsString()
+  @IsNotEmpty()
+  business: string;
+
+  @IsString()
+  @IsNotEmpty()
+  state: string;
+
+  @IsString()
+  @IsNotEmpty()
+  country: string;
+}

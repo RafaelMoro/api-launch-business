@@ -9,6 +9,7 @@ import {
   getStateCountry,
   VERSION_RESPONSE,
   getInitialBudget,
+  getBusinessCompetition,
 } from '@/constants';
 import {
   BusinessPlanData,
@@ -20,12 +21,15 @@ import {
   BuyerPersona,
   InitialBudgetData,
   InitialBudgetResponse,
+  BusinessCompetitor,
+  BusinessCompetitionResponse,
 } from '@/interface';
 import {
   BusinessPlanDto,
   StateCountryDto,
   BuyerPersonaDto,
   InitialBudgetDto,
+  BusinessCompetitionDto,
 } from './app.dto';
 import { parseStringToJson } from './utils';
 
@@ -222,7 +226,6 @@ export class AppService {
         ],
       });
       const completionResult = completion.choices[0].message.content;
-      console.log('completionResult', completionResult);
       const responseParsed = parseStringToJson(completionResult);
       if (responseParsed === 'Error parsing JSON') {
         throw new BadRequestException('Error parsing JSON');
@@ -233,6 +236,46 @@ export class AppService {
         success: true,
         message: 'initial budget created',
         data: responseParsed as InitialBudgetData,
+        error: null,
+      };
+      return response;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async generateBusinessCompetition(data: BusinessCompetitionDto) {
+    try {
+      const { business, state, country } = data;
+      const apiKey = this.configService.openAIKey ?? '';
+      if (!apiKey) {
+        throw new BadRequestException('API key is not set');
+      }
+
+      // First do a web search to gather real competition data
+      const openai = new OpenAI({
+        apiKey,
+      });
+
+      const webSearchCompletion = await openai.responses.create({
+        model: 'gpt-4.1',
+        tools: [{ type: 'web_search_preview' }],
+        input: getBusinessCompetition({ business, state, country }),
+      });
+      const result = webSearchCompletion.output_text;
+
+      if (!result) {
+        throw new BadRequestException('Error on obtaining data', result);
+      }
+
+      const responseParsed = parseStringToJson(result) as BusinessCompetitor[];
+
+      const response: BusinessCompetitionResponse = {
+        version: VERSION_RESPONSE,
+        success: true,
+        message: 'business competition analysis created',
+        data: responseParsed,
+        // data: [],
         error: null,
       };
       return response;

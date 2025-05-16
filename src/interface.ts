@@ -51,6 +51,12 @@ export interface GetInitialBudgetProps {
   country: string | null;
 }
 
+export interface GetBusinessCompetitionProps {
+  business: string;
+  state: string | null;
+  country: string | null;
+}
+
 export interface GetStateCountryProps {
   longitude: string;
   latitude: string;
@@ -80,5 +86,23 @@ export interface InitialBudgetData {
 
 export interface InitialBudgetResponse extends Omit<GeneralResponse, 'error'> {
   data: InitialBudgetData;
+  error: null;
+}
+
+export interface BusinessCompetitor {
+  name: string;
+  description: string;
+  website: string;
+  logoDescription: string;
+  competition: string;
+  competitionType: string;
+  competitionSize: string;
+  competitionLocation: string;
+  differenciator: string;
+}
+
+export interface BusinessCompetitionResponse
+  extends Omit<GeneralResponse, 'error'> {
+  data: BusinessCompetitor[];
   error: null;
 }
