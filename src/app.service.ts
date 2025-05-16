@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable, Inject, BadRequestException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import OpenAI from 'openai';
@@ -9,6 +8,7 @@ import {
   getBuyerPersona,
   getStateCountry,
   VERSION_RESPONSE,
+  getInitialBudget,
 } from '@/constants';
 import {
   BusinessPlanData,
@@ -18,8 +18,15 @@ import {
   TestApiResponse,
   BuyerPersonaResponse,
   BuyerPersona,
+  InitialBudgetData,
+  InitialBudgetResponse,
 } from '@/interface';
-import { BusinessPlanDto, StateCountryDto, BuyerPersonaDto } from './app.dto';
+import {
+  BusinessPlanDto,
+  StateCountryDto,
+  BuyerPersonaDto,
+  InitialBudgetDto,
+} from './app.dto';
 import { parseStringToJson } from './utils';
 
 @Injectable()
@@ -185,6 +192,47 @@ export class AppService {
         success: true,
         message: 'buyer personas created',
         data: responseParsed,
+        error: null,
+      };
+      return response;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async generateInitialBudget(data: InitialBudgetDto) {
+    try {
+      const { business, state, country } = data;
+      const apiKey = this.configService.openAIKey ?? '';
+      if (!apiKey) {
+        throw new BadRequestException('API key is not set');
+      }
+
+      const openai = new OpenAI({
+        apiKey,
+      });
+      const completion = await openai.chat.completions.create({
+        model: 'gpt-4o-mini',
+        store: true,
+        messages: [
+          {
+            role: 'user',
+            content: getInitialBudget({ business, state, country }),
+          },
+        ],
+      });
+      const completionResult = completion.choices[0].message.content;
+      console.log('completionResult', completionResult);
+      const responseParsed = parseStringToJson(completionResult);
+      if (responseParsed === 'Error parsing JSON') {
+        throw new BadRequestException('Error parsing JSON');
+      }
+
+      const response: InitialBudgetResponse = {
+        version: VERSION_RESPONSE,
+        success: true,
+        message: 'initial budget created',
+        data: responseParsed as InitialBudgetData,
         error: null,
       };
       return response;

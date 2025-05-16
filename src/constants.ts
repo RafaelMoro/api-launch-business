@@ -72,4 +72,12 @@ export const getInitialBudget = ({
 
   Dame un presupuesto inicial para el negocio ${business} en base a este estado ${state} y pais ${country} y que consideraciones debo tener en cuenta.
   En caso de que ${state} y ${country} sean invalidos, usa al país de México como referencia.
+  Devuelve el resultado en un arreglo de JSON con este formato:
+
+  {
+    "budget": "",
+    "considerations": "",
+  }
+
+  Recuerda no devolver en el resultado ningun salto de linea, ni /n, ni comillas, ni caracteres especiales.
 `;

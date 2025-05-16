@@ -72,3 +72,13 @@ export interface BuyerPersonaResponse {
   data: BuyerPersona[] | null;
   error: string | null;
 }
+
+export interface InitialBudgetData {
+  budget: string;
+  considerations: string;
+}
+
+export interface InitialBudgetResponse extends Omit<GeneralResponse, 'error'> {
+  data: InitialBudgetData;
+  error: null;
+}

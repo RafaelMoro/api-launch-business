@@ -26,3 +26,17 @@ export class BuyerPersonaDto {
   @IsNotEmpty()
   country: string;
 }
+
+export class InitialBudgetDto {
+  @IsString()
+  @IsNotEmpty()
+  business: string;
+
+  @IsString()
+  @IsNotEmpty()
+  state: string;
+
+  @IsString()
+  @IsNotEmpty()
+  country: string;
+}

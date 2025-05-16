@@ -1,6 +1,11 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
-import { BusinessPlanDto, StateCountryDto, BuyerPersonaDto } from './app.dto';
+import {
+  BusinessPlanDto,
+  StateCountryDto,
+  BuyerPersonaDto,
+  InitialBudgetDto,
+} from './app.dto';
 
 @Controller()
 export class AppController {
@@ -29,5 +34,10 @@ export class AppController {
   @Post('buyer-persona')
   generateBuyerPersona(@Body() buyerPersonaDto: BuyerPersonaDto) {
     return this.appService.generateBuyerPersona(buyerPersonaDto);
+  }
+
+  @Post('budget')
+  generateInitialBudget(@Body() initialBudgetDto: InitialBudgetDto) {
+    return this.appService.generateInitialBudget(initialBudgetDto);
   }
 }
