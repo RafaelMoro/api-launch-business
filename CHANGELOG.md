@@ -1,3 +1,9 @@
+## v1.0.4 (2025-05-17)
+
+### Pull Requests
+[#8](https://github.com/RafaelMoro/api-launch-business/pull/8) | Enable cors
+
+
 ## v1.0.3 (2025-05-17)
 
 ### Pull Requests
