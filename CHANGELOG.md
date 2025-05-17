@@ -1,3 +1,9 @@
+## v1.0.3 (2025-05-17)
+
+### Pull Requests
+[#6](https://github.com/RafaelMoro/api-launch-business/pull/6) | Update readme
+
+
 ## v1.0.2 (2025-05-16)
 
 ### Pull Requests
