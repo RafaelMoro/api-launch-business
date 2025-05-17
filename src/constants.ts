@@ -76,10 +76,15 @@ export const getInitialBudget = ({
   Devuelve el resultado en un arreglo de JSON con este formato:
 
   {
-    "budget": "",
+    "budget": [{
+      "gasto": "",
+      "valor": 0
+    }],
     "considerations": "",
   }
 
+  Devuelve la propiedad budget como un arreglo de objeto donde defines el gasto y el valor que es el monto. Incluye una gasto con concepto como total dentro de budget.
+  Recuerda que las consideraciones deben ser respecto al presupuesto. Devuelve la propiedad considerations como una cadena de texto solamente
   Recuerda no devolver en el resultado ningun salto de linea, ni /n, ni comillas, ni caracteres especiales.
 `;
 
